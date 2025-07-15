@@ -41,6 +41,14 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/storeView.vue'),
     },
+    {
+      path: '/avisoPrivacy',
+      name: 'avisoPrivacy',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/privacyPolicyView.vue'),
+    },
         // Ruta comodín para errores 404
      {
        path: '/:pathMatch(.*)*',

@@ -77,9 +77,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('click', cerrarMenu)
 })
 
-const categorias = ['PERSONALIZACIÓN', 'MUEBLES PARA BAÑO', 'COCINAS']
+const categorias = ['MUEBLES PARA BAÑO', 'COCINAS']
 const categoriaSeleccionada = ref(categorias[0])
-const categoriasDeco = ['ACRILICOS', 'VINIL', 'MDF', 'LAMBRÍN']
+const categoriasDeco = ['ACRILICOS', 'VINIL', 'MDF', 'LAMBRÍN','PERSONALIZACIÓN']
 const categoriasDecoSeleccionada = ref(null)
 
 const productos = ref([{
@@ -174,7 +174,7 @@ const productos = ref([{
 //personalizacion
 {
   imagenMiniatura: new URL('@/assets/personalizar-miniatura.jpg', import.meta.url).href,
-  categoria: 'PERSONALIZACIÓN',
+  categoria: 'DECORACIÓN',
   nombre: 'PERSONALIZACIÓN',
   nota: 'Personaliza tu producto con una amplia variedad de colores, acabados y detalles. Adaptamos cada pieza a tu estilo y necesidades, brindando opciones únicas que reflejan tu gusto. Contactanos para mas información.',
   descripcion: 'Personaliza tus ideas',
@@ -188,7 +188,7 @@ const productos = ref([{
 },
 {
   imagenMiniatura: new URL('@/assets/personalizar-miniatura.jpg', import.meta.url).href,
-  categoria: 'PERSONALIZACIÓN',
+  categoria: 'DECORACIÓN',
   nombre: 'PERSONALIZACIÓN',
   nota: 'Personaliza tu producto con una amplia variedad de colores, acabados y detalles. Adaptamos cada pieza a tu estilo y necesidades, brindando opciones únicas que reflejan tu gusto. Contactanos para mas información.',
   descripcion: 'Personaliza tus ideas',
@@ -216,7 +216,7 @@ const productos = ref([{
 },
 {
   imagenMiniatura: new URL('@/assets/personalizar-miniatura.jpg', import.meta.url).href,
-  categoria: 'PERSONALIZACIÓN',
+  categoria: 'DECORACIÓN',
   nombre: 'PERSONALIZACIÓN',
   nota: 'Personaliza tu producto con una amplia variedad de colores, acabados y detalles. Adaptamos cada pieza a tu estilo y necesidades, brindando opciones únicas que reflejan tu gusto. Contactanos para mas información.',
   descripcion: 'Personaliza tus ideas',
@@ -230,7 +230,7 @@ const productos = ref([{
 },
 {
   imagenMiniatura: new URL('@/assets/personalizar-miniatura.jpg', import.meta.url).href,
-  categoria: 'PERSONALIZACIÓN',
+  categoria: 'DECORACIÓN',
   nombre: 'PERSONALIZACIÓN',
   nota: 'Personaliza tu producto con una amplia variedad de colores, acabados y detalles. Adaptamos cada pieza a tu estilo y necesidades, brindando opciones únicas que reflejan tu gusto. Contactanos para mas información.',
   descripcion: 'Personaliza tus ideas',

@@ -10,12 +10,24 @@
       <h2>ESCRÍBENOS!</h2>
       <p>TE RESPONDEREMOS CON GUSTO.</p>
       <form @submit.prevent="enviarFormulario">
-        <input type="text" v-model="nombre" name="Nombre" placeholder="Nombre" required />
-        <input type="text" v-model="empresa" name="Empresa" placeholder="Empresa" />
-        <input type="tel" v-model="telefono" name="Telefono" placeholder="Número de Contacto" required />
-        <textarea v-model="mensaje" name="Mensaje" placeholder="Mensaje" rows="4" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
+  <input type="text" v-model="nombre" name="Nombre" placeholder="Nombre" required />
+  <input type="text" v-model="empresa" name="Empresa" placeholder="Empresa" />
+  <input type="tel" v-model="telefono" name="Telefono" placeholder="Número de Contacto" required />
+  <textarea v-model="mensaje" name="Mensaje" placeholder="Mensaje" rows="4" required></textarea>
+
+  <!-- AVISO DE PRIVACIDAD -->
+  <label class="aviso">
+    <input
+      type="checkbox"
+      v-model="avisoPrivacidad"
+      name="AvisoPrivacidad"
+      required
+    />
+    He leído y acepto el <router-link to="/avisoPrivacy">Aviso de Privacidad.</router-link>
+  </label>
+
+  <button type="submit">Enviar</button>
+</form>
     </div>
 
 
@@ -33,6 +45,7 @@
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe>
+   
     </div>
         <!-- VIDEO -->
     <div class="video">
@@ -63,14 +76,45 @@ const nombre = ref('')
 const empresa = ref('')
 const telefono = ref('')
 const mensaje = ref('')
+const avisoPrivacidad = ref(false) // ✅ Checkbox
 
 const youtubeURL = "https://www.youtube.com/embed/YOUTUBE_ID"
 const mapURL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734.427208524124!2d-101.2187871!3d21.4734973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842b03682df8d70f%3A0x11fc3f6fddec48a5!2sCarpinteria%20SOLO!5e0!3m2!1ses-419!2smx!4v1719513580000!5m2!1ses-419!2smx"
 
-const enviarFormulario = () => {
-  console.log('Formulario enviado:', { nombre, empresa, telefono, mensaje })
+const enviarFormulario = async () => {
+  const formData = new FormData()
+  formData.append('Nombre', nombre.value)
+  formData.append('Empresa', empresa.value)
+  formData.append('Telefono', telefono.value)
+  formData.append('Mensaje', mensaje.value)
+  formData.append('AvisoPrivacidad', avisoPrivacidad.value ? 'Aceptado' : 'No aceptado')
+
+  try {
+    const response = await fetch('https://formspree.io/f/xblybggg', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+      },
+    })
+
+    if (response.ok) {
+      alert('¡Mensaje enviado correctamente!')
+      nombre.value = ''
+      empresa.value = ''
+      telefono.value = ''
+      mensaje.value = ''
+      avisoPrivacidad.value = false
+    } else {
+      alert('Hubo un problema al enviar el formulario.')
+    }
+  } catch (error) {
+    console.error('Error al enviar formulario:', error)
+    alert('Ocurrió un error de red. Intenta más tarde.')
+  }
 }
 </script>
+
 
 <style scoped>
 .contact-container {
@@ -127,6 +171,18 @@ const enviarFormulario = () => {
   margin: 0 0.5rem;
   font-size: 1.5rem;
   color: #333;
+}
+.aviso {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.aviso a {
+  color: #007BFF;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

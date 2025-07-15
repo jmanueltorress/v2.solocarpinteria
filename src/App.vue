@@ -14,7 +14,7 @@ import GlobalFooter from './components/GlobalFooter.vue'
   <GlobalFooter/>
     <!-- Botón de WhatsApp -->
   <a
-    href="https://wa.me/524281033729"
+    href="https://wa.me/524281205142"
     class="whatsapp-button"
     target="_blank"
     rel="noopener"
