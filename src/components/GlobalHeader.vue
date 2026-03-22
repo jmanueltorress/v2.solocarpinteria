@@ -15,23 +15,22 @@
       <img :src="logoSrc" alt="Logo" class="desktop-logo" />
       <div class="links-1">
         <router-link to="/">Inicio</router-link>
-        <router-link to="/About">Nosotros</router-link>
+        <!-- <router-link to="/services">Servicios</router-link> -->
         <router-link to="/Products">Catálogo</router-link>
+        <router-link to="/Projects">Proyectos</router-link>
         <router-link to="/contact">Contáctanos</router-link>
         <router-link to="/store"><img src="@/assets/shop-icon.png" alt=""></router-link>
       </div>
-
     </nav>
 
     <!-- Mobile navigation menu -->
     <nav class="mobile-nav" :class="{ open: mobileMenuOpen }">
       <div class="mobile-links">
         <router-link to="/" @click="closeMobileMenu">Inicio</router-link>
-        <router-link to="/About" @click="closeMobileMenu">Nosotros</router-link>
-        <router-link to="/Products">Catálogo</router-link>
+        <router-link to="/Products" @click="closeMobileMenu">Catálogo</router-link>
+        <router-link to="/Projects" @click="closeMobileMenu">Proyectos</router-link>
         <router-link to="/contact" @click="closeMobileMenu">Contáctanos</router-link>
-        <router-link to="/store"><img src="@/assets/shop-icon.png" alt=""></router-link>
-
+        <router-link to="/store" @click="closeMobileMenu"><img src="@/assets/shop-icon.png" alt="Tienda"></router-link>
       </div>
     </nav>
 
@@ -43,7 +42,6 @@
 <script>
 import logoDark from '@/assets/logo-dark.png';
 import logoLight from '@/assets/logo-dark.png';
-
 
 export default {
   name: 'navMenu',
@@ -58,19 +56,6 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.handleResize);
-
-    // this.$nextTick(() => {
-    //   const footer = document.querySelector('footer');
-    //   if (footer) {
-    //     this.observer = new IntersectionObserver(
-    //       ([entry]) => {
-    //         this.hideHeader = entry.isIntersecting;
-    //       },
-    //       { threshold: 0.1 }
-    //     );
-    //     this.observer.observe(footer);
-    //   }
-    // });
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -79,7 +64,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      this.scrolled = window.scrollY > 0;
+      this.scrolled = window.scrollY > 50;
     },
     handleResize() {
       if (window.innerWidth > 768 && this.mobileMenuOpen) {
@@ -110,9 +95,14 @@ export default {
 </script>
 
 <style scoped>
+main {
+  padding-top: 100px;
+}
+
 .navMenu {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 1000;
   background: var(--main-dark);
   display: flex;
@@ -128,26 +118,41 @@ export default {
 .navMenu.scrolled {
   background: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 64px;
+}
+
+.navMenu.scrolled .desktop-logo,
+.navMenu.scrolled .mobile-logo {
+  height: 44px;
+  margin-top: 0;
+}
+
+.navMenu.scrolled .navbar a {
+  color: var(--main-dark);
+  font-size: 0.8rem;
 }
 
 .navMenu.hidden {
   transform: translateY(-100%);
 }
 
-/* Mobile header - hidden on desktop */
+/* ── Mobile header ── */
 .mobile-header {
   display: none;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0 2rem;
+  max-width: 1200px;   /* ← ALINEADO con footer */
+  margin: 0 auto;      /* ← ALINEADO con footer */
+  padding: 0 2rem;     /* ← ALINEADO con footer */
+  box-sizing: border-box;
 }
 
 .mobile-logo {
   height: 70px;
 }
 
-/* Desktop navigation */
+/* ── Desktop navigation ── */
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -160,7 +165,6 @@ export default {
 }
 
 .desktop-logo {
-  padding-left: 0px;
   height: 70px;
   margin-top: -12px;
   transition: height 0.3s ease;
@@ -184,7 +188,7 @@ export default {
   vertical-align: middle;
 }
 
-/* Hamburger button */
+/* ── Hamburger ── */
 .hamburger-btn {
   display: flex;
   flex-direction: column;
@@ -212,27 +216,18 @@ export default {
   background: var(--main-dark);
 }
 
-.hamburger-btn.active span:first-child {
-  transform: rotate(45deg);
-}
+.hamburger-btn.active span:first-child { transform: rotate(45deg); }
+.hamburger-btn.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
+.hamburger-btn.active span:nth-child(3) { transform: rotate(-45deg); }
 
-.hamburger-btn.active span:nth-child(2) {
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.hamburger-btn.active span:nth-child(3) {
-  transform: rotate(-45deg);
-}
-
-/* Mobile navigation */
+/* ── Mobile nav ── */
 .mobile-nav {
   display: none;
   position: fixed;
-  top: 100px;
+  top: 80px;
   right: -100%;
   width: 300px;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 80px);
   background: var(--main-dark);
   transition: right 0.3s ease;
   z-index: 999;
@@ -243,9 +238,7 @@ export default {
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.mobile-nav.open {
-  right: 0;
-}
+.mobile-nav.open { right: 0; }
 
 .mobile-links {
   display: flex;
@@ -254,7 +247,7 @@ export default {
   height: 100%;
 }
 
-.mobile-links>a {
+.mobile-links > a {
   padding: 1rem 0;
   color: var(--text-color);
   text-decoration: none;
@@ -265,13 +258,13 @@ export default {
   transition: color 0.3s ease;
 }
 
-.navMenu.scrolled .mobile-links>a {
+.navMenu.scrolled .mobile-links > a {
   color: var(--main-dark);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.mobile-links>a:hover,
-.mobile-links>a.router-link-active {
+.mobile-links > a:hover,
+.mobile-links > a.router-link-active {
   color: rgb(184, 181, 181);
 }
 
@@ -301,20 +294,11 @@ export default {
   transition: color 0.3s ease;
 }
 
-.navMenu.scrolled .mobile-actions a {
-  color: var(--main-dark);
-}
+.navMenu.scrolled .mobile-actions a { color: var(--main-dark); }
+.mobile-actions a:hover             { color: var(--brand); }
+.mobile-actions a img { width: 20px; height: 20px; }
 
-.mobile-actions a:hover {
-  color: var(--brand);
-}
-
-.mobile-actions a img {
-  width: 20px;
-  height: 20px;
-}
-
-/* Mobile overlay */
+/* ── Overlay ── */
 .mobile-overlay {
   display: none;
   position: fixed;
@@ -328,11 +312,9 @@ export default {
   transition: opacity 0.3s ease;
 }
 
-.mobile-overlay.active {
-  opacity: 1;
-}
+.mobile-overlay.active { opacity: 1; }
 
-/* Estilo base para todos los links del desktop */
+/* ── Desktop links ── */
 .navbar a {
   padding: 0.5rem 1rem;
   color: var(--text-color);
@@ -344,7 +326,6 @@ export default {
   transition: color 0.3s;
 }
 
-/* Estilo para router-links en links-1 con subrayado suave */
 .navbar .links-1 a {
   position: relative;
   font-weight: 500;
@@ -369,14 +350,10 @@ export default {
   transform: scaleX(1);
 }
 
-.navbar .links-1 a:hover::after {
-  transform: scaleX(1);
-}
+.navbar .links-1 a:hover::after { transform: scaleX(1); }
 
-/* Color de la línea cuando el fondo es oscuro (modo inicial) */
 .navMenu:not(.scrolled) .navbar .links-1 a::after {
   background-color: white;
-  /* o el color claro que desees */
 }
 
 .navMenu:not(.scrolled) .navbar .links-1 a.router-link-active,
@@ -385,30 +362,23 @@ export default {
   color: white;
 }
 
-.navMenu.scrolled .navbar a {
-  color: var(--main-dark);
-}
+.navMenu.scrolled .navbar a { color: var(--main-dark); }
 
-/* Media queries */
+/* ── Responsive 768px ── */
 @media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-  }
+  body { overflow-x: hidden; }
 
   .navMenu {
     height: 80px;
+    transition: height 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
 
-  /* Mostrar el encabezado móvil y ocultar el de escritorio */
-  .mobile-header {
-    display: flex;
-  }
+  .navMenu.scrolled       { height: 56px; }
+  .navMenu.scrolled .mobile-logo { height: 38px; }
 
-  .desktop-nav {
-    display: none;
-  }
+  .mobile-header { display: flex; }
+  .desktop-nav   { display: none; }
 
-  /* Mostrar menú móvil y overlay */
   .mobile-nav {
     display: block;
     position: fixed;
@@ -424,13 +394,9 @@ export default {
     overflow-y: auto;
   }
 
-  .mobile-nav.open {
-    transform: translateX(0);
-  }
+  .mobile-nav.open { transform: translateX(0); }
 
-  .mobile-overlay {
-    display: block;
-  }
+  .mobile-overlay { display: block; }
 
   .mobile-nav .mobile-links {
     padding: 2rem;
@@ -438,16 +404,40 @@ export default {
   }
 }
 
-
+/* ── Responsive 480px ── */
 @media (max-width: 480px) {
+  .mobile-nav  { width: 100%; right: -100%; }
+  .mobile-links { padding: 1.5rem; }
+}
+</style>
 
-  .mobile-nav {
-    width: 100%;
-    right: -100%;
-  }
+<!-- Safari fix -->
+<style scoped>
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .navMenu {
+      position: -webkit-sticky;
+      position: sticky;
+      backdrop-filter: none;
+    }
 
-  .mobile-links {
-    padding: 1.5rem;
+    .navMenu.hidden { transform: translateY(-100%) !important; }
+
+    .mobile-nav {
+      -webkit-overflow-scrolling: touch;
+      background-color: var(--main-dark);
+    }
+
+    .mobile-actions a  { font-size: 1.05rem; }
+
+    .mobile-links > a {
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .desktop-logo { height: 65px; }
+
+    .hamburger-btn span { background: var(--text-color); }
   }
 }
 </style>

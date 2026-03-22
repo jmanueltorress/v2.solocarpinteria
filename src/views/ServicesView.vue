@@ -1,22 +1,14 @@
 <script setup>
-import HeroItemHome from '../components/HeroItemHome.vue'
 import HeroItemServices from '../components/HeroItemServices.vue'
 import Services from '../components/ServicesItem.vue';
 import Projects from '../components/ProjectsItem.vue';
 import AboutItem from '../components/AboutItem.vue';
-import CTAContact from '../components/contactusCTA.vue';
+
 </script>
 
 <template>
   <main>
-    <AboutItem />
-    <HeroItemHome />
-     <Services />
     <HeroItemServices />
-    <CTAContact />
     
-
   </main>
 </template>
-
-

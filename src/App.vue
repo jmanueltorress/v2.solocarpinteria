@@ -27,6 +27,9 @@ import GlobalFooter from './components/GlobalFooter.vue'
 </template>
 
 <style>
+#app {
+  padding-top: 100px;
+} 
 .whatsapp-button {
   position: fixed;
   bottom: 20px;

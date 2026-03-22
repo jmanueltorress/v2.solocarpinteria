@@ -1,346 +1,437 @@
 <template>
-  <section class="organigrama-container">
-    <!-- Encabezado -->
-    <div class="top-section">
-      <h1>QUIENES SOMOS</h1>
-      <p class="intro">
-SOLO es una carpintería dedicada a fabricar muebles y trabajos en madera a medida, combinando experiencia y calidad. Con más de 6 años de trayectoria, nos enfocamos en los detalles y en el uso de materiales duraderos para ofrecer resultados que superen tus expectativas. Además, buscamos soluciones que se ajusten a las necesidades y posibilidades de cada cliente. Transformamos la madera en piezas únicas para tu hogar o negocio.       </p>
-    </div>
+  <main class="about-page" ref="pageRef">
 
-    <!-- Imagen con Organigrama -->
-    <!-- <div class="image-section">
-      <img src="@/assets/logo-dark.png" alt="Organigrama" class="bg-image" />
-      <div class="organigrama-text">ORGANIGRAMA</div>
-    </div> -->
+    <!-- ==============================
+         HERO — imagen izq / texto der
+         ============================== -->
+    <div class="about-hero" :class="{ visible: isVisible }">
 
-    <!-- Botones y cards -->
-    <div class="cards-section">
-      <div class="buttons">
-        <button
-          @click="toggleCard('mision')"
-          :class="{ active: activeCard === 'mision' }"
-        >
-          MISIÓN
-        </button>
-        <button
-          @click="toggleCard('vision')"
-          :class="{ active: activeCard === 'vision' }"
-        >
-          VISIÓN
-        </button>
-        <button
-          @click="toggleCard('valores')"
-          :class="{ active: activeCard === 'valores' }"
-        >
-          VALORES
-        </button>
+      <div class="about-hero-img">
+        <img :src="heroImg" alt="Taller Carpintería SOLO" class="hero-img" />
       </div>
 
-      <!-- Transición suave deslizante con key única -->
-      <transition name="slide-up" mode="out-in">
-  <div class="card" v-if="activeCard" :key="activeCard">
-    <p v-if="activeCard !== 'valores'">{{ cardText[activeCard] }}</p>
-    <ul v-else>
-      <li v-for="(valor, index) in cardText.valores" :key="index">{{ valor }}</li>
-    </ul>
-  </div>
-</transition>
+      <div class="about-hero-text">
+        <p class="about-eyebrow">Somos SOLO.</p>
+        <h1 class="about-title">Muebles que<br />cuentan historias.</h1>
+        <p class="about-lead">
+          Empresa con expreriencia en diseño y fabricación
+          de cocinas, closets, muebles de baño y soluciones a medida. Cada proyecto que
+          sale de nuestro taller lleva precisión, carácter y el orgullo de hacerlo bien.
+        </p>
+      </div>
+
     </div>
-  </section>
+
+    <!-- ==============================
+         STATS — fila horizontal debajo
+         ============================== -->
+    <div class="about-stats-row" :class="{ visible: isVisible }">
+      <div class="stat-item">
+        <span class="stat-num">+6</span>
+        <span class="stat-label">Años de experiencia</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Fabricación propia</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <span class="stat-num">A medida</span>
+        <span class="stat-label">Cada proyecto es único</span>
+      </div>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="about-divider" :class="{ visible: isVisible }"></div>
+
+    <!-- ==============================
+         TEXTO SECUNDARIO
+         ============================== -->
+    <div class="about-body" :class="{ visible: isVisible }">
+      <p>
+        Nacimos en San Felipe, Guanajuato, con la convicción de que un mueble bien
+        hecho transforma un espacio y, con él, la vida de quienes lo habitan.
+        No trabajamos en serie: escuchamos, diseñamos y fabricamos pensando en ti.
+      </p>
+      <p>
+        Contamos con taller propio equipado con maquinaria de precisión y un equipo
+        comprometido con la calidad en cada detalle, desde el corte hasta la
+        instalación final.
+      </p>
+    </div>
+
+    <!-- DIVISOR -->
+    <div class="about-divider" :class="{ visible: isVisible }"></div>
+
+    <!-- ==============================
+         VALORES
+         ============================== -->
+    <div class="about-values" :class="{ visible: isVisible }">
+      <p class="values-eyebrow">Lo que nos mueve</p>
+      <div class="values-list">
+        <div
+          v-for="(v, i) in valores"
+          :key="i"
+          class="value-row"
+          :style="{ transitionDelay: `${i * 0.08}s` }"
+          :class="{ visible: isVisible }"
+        >
+          <span class="value-num">0{{ i + 1 }}</span>
+          <span class="value-name">{{ v.name }}</span>
+          <span class="value-desc">{{ v.desc }}</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue'
+import heroImg from '@/assets/hero-panel-2.jpeg'
 
-// ✅ Mostrar "MISIÓN" como activa al cargar la vista
-const activeCard = ref('mision');
+const pageRef   = ref(null)
+const isVisible = ref(false)
 
-const cardText = {
-  mision: 'Crear proyectos de carpintería únicos y funcionales que reflejen el estilo y necesidades de nuestros clientes, utilizando materiales de calidad y técnicas artesanales para garantizar la durabilidad y belleza en cada trabajo.',
-  vision: 'Cumplir las expectativas de quienes buscan excelencia y creatividad en trabajos de madera, innovando constantemente y fomentando relaciones duraderas con nuestros clientes y proveedores.',
-  valores: [
-    'Compromiso',
-    'Pasión',
-    'Confianza',
-    'Creatividad',
-    'Respeto'
-  ]
-};
+const valores = [
+  { name: 'Precisión',  desc: 'Cada milímetro importa. Trabajamos con maquinaria de corte de alta exactitud.' },
+  { name: 'Honestidad', desc: 'Precios claros, tiempos reales y comunicación directa desde el primer día.' },
+  { name: 'Calidad',    desc: 'Usamos materiales de primera y herrajes que duran. Sin atajos.' },
+  { name: 'Compromiso', desc: 'Tu proyecto no termina hasta que estés satisfecho con el resultado final.' },
+]
 
-function toggleCard(card) {
-  if (activeCard.value === card) {
-    activeCard.value = null;
-  } else {
-    if (activeCard.value !== null) {
-      activeCard.value = null;
-      setTimeout(() => {
-        activeCard.value = card;
-      }, 200); // tiempo sincronizado con la transición CSS
-    } else {
-      activeCard.value = card;
-    }
-  }
-}
+let observer = null
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    ([entry]) => { if (entry.isIntersecting) { isVisible.value = true; observer.disconnect() } },
+    { threshold: 0.06 }
+  )
+  if (pageRef.value) observer.observe(pageRef.value)
+})
+
+onUnmounted(() => observer?.disconnect())
 </script>
 
-
 <style scoped>
-.organigrama-container {
-  background-color: white;
- 
+/* ========================
+   PÁGINA
+   ======================== */
+.about-page {
+  background: #111;
+  color: #fff;
+  min-height: 100vh;
+  padding: 6rem 5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Encabezado */
-.top-section {
+/* ========================
+   HERO — imagen izq + texto der
+   ======================== */
+.about-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.about-hero.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Imagen */
+.about-hero-img {
+  aspect-ratio: 4 / 3;
+  max-height: 380px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  filter: brightness(0.82);
+  transition: transform 0.65s ease, filter 0.4s ease;
+}
+
+.about-hero-img:hover .hero-img {
+  transform: scale(1.04);
+  filter: brightness(0.65);
+}
+
+/* Texto */
+.about-hero-text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  background-color: #000000; /* color de respaldo si imagen no carga */
-  color: white;
-  padding: 2rem;
- padding: 5% 25% 10% 25%;
-   background: linear-gradient(135deg, rgba(3, 2, 2, 0.959), rgba(53, 36, 33, 0.7)), 
-              url('@/assets/textura-madera.webp') center/cover no-repeat;
+  gap: 1.75rem;
 }
 
+.about-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
 
+.about-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0;
+}
 
+.about-lead {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.8;
+  margin: 0;
+}
 
-.logo {
-  width: 90px;
+/* ========================
+   STATS — fila horizontal
+   ======================== */
+.about-stats-row {
+  display: flex;
+  align-items: stretch;
+  margin-top: 3.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+}
+
+.about-stats-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 2rem 0;
+}
+
+.stat-sep {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 1.25rem 3rem;
   flex-shrink: 0;
 }
 
-.intro {
-  flex: 1;
-  font-size: 0.95rem;
-  line-height: 1.6;
- 
+.stat-num {
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #fff;
+  line-height: 1;
 }
 
-/* Imagen + Título */
-.image-section {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.bg-image {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.organigrama-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  letter-spacing: 2px;
-}
-
-/* Botones y Cards */
-.cards-section {
-  margin-top: -4%;
-  text-align: center;
-  padding: 2rem;
-  min-height: 200px; /* Reserva espacio para evitar saltos de layout */
-}
-
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.buttons button {
-  padding: 0.8rem 1.5rem;
-  border: 2px solid #000000;
-  background-color: white;
-  color: #000000;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.stat-label {
+  font-size: 0.68rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
+  color: rgba(255, 255, 255, 0.28);
 }
 
-.buttons button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
+/* ========================
+   DIVISOR
+   ======================== */
+.about-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 3.5rem 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.18, 1) 0.2s;
 }
 
-.buttons button:hover::before {
-  left: 100%;
+.about-divider.visible {
+  transform: scaleX(1);
 }
 
-.buttons button.active,
-.buttons button:hover {
-  background-color: #000000;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(27, 24, 24, 0.3);
+/* ========================
+   TEXTO SECUNDARIO
+   ======================== */
+.about-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
 }
 
-.card {
-  max-width: 400px;
-  margin: auto;
-  background: linear-gradient(135deg, rgba(3, 2, 2, 0.959), rgba(53, 36, 33, 0.7)), 
-              url('@/assets/textura-madera.webp') center/cover no-repeat;
-  color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.about-body.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.card p {
+.about-body p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.42);
+  line-height: 1.85;
   margin: 0;
-  line-height: 1.6;
-  font-size: 1rem;
-  text-align: left;
 }
 
-/* ANIMACIÓN slide-up mejorada */
-.slide-up-enter-active {
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.slide-up-leave-active {
-  transition: all 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19);
-}
-
-.slide-up-enter-from {
+/* ========================
+   VALORES
+   ======================== */
+.about-values {
   opacity: 0;
-  transform: translateY(30px) scale(0.95);
+  transform: translateY(20px);
+  transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
 }
 
-.slide-up-enter-to {
+.about-values.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
-.slide-up-leave-from {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+.values-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 0 1.5rem;
 }
 
-.slide-up-leave-to {
+.values-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.value-row {
+  display: grid;
+  grid-template-columns: 40px 200px 1fr;
+  align-items: baseline;
+  gap: 2rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   opacity: 0;
-  transform: translateY(-20px) scale(0.95);
+  transform: translateX(-16px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s ease;
 }
 
-/* Responsive */
+.value-row:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.value-row.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.value-row:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+.value-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.08em;
+}
+
+.value-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.value-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.42);
+  line-height: 1.65;
+}
+
+/* ========================
+   RESPONSIVE
+   ======================== */
+@media (max-width: 1024px) {
+  .about-page  { padding: 5rem 3.5rem; }
+  .about-title { font-size: 3.5rem; }
+  .about-hero  { gap: 3.5rem; }
+  .stat-sep    { margin: 1.25rem 2rem; }
+}
+
 @media (max-width: 768px) {
-  .top-section {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.5rem;
+  .about-page  { padding: 4rem 2rem; }
+  .about-title { font-size: 2.8rem; }
+
+  .about-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .logo {
-    margin: auto;
-    width: 70px;
+  .about-hero-img {
+    aspect-ratio: 16 / 9;
+    max-height: 260px;
+    border-radius: 8px;
   }
 
-  .intro {
-    font-size: 0.9rem;
-    margin-top: 1rem;
+  .about-stats-row { flex-wrap: wrap; }
+  .stat-item       { flex: 1 1 120px; }
+  .stat-sep        { display: none; }
+
+  .about-body {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
-  .organigrama-text {
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+  .value-row {
+    grid-template-columns: 32px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.4rem 1rem;
   }
 
-  .buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .buttons button {
-    width: 200px;
-    padding: 0.7rem 1.2rem;
-  }
-
-  .card {
-    max-width: 90%;
-    padding: 1.5rem;
-  }
-
-  .cards-section {
-    padding: 1.5rem;
-    min-height: 150px;
-    margin-top:0;
-  }
+  .value-num  { grid-row: 1; grid-column: 1; }
+  .value-name { grid-row: 1; grid-column: 2; }
+  .value-desc { grid-row: 2; grid-column: 2; }
 }
 
 @media (max-width: 480px) {
-  .top-section {
-    padding: 1rem;
-  }
+  .about-page  { padding: 3.5rem 1.5rem; }
+  .about-title { font-size: 2.2rem; }
+  .about-lead  { font-size: 0.92rem; }
+  .stat-num    { font-size: 1.8rem; }
+}
 
-  .organigrama-text {
-    font-size: 1.2rem;
-  }
-
-  .buttons button {
-    width: 180px;
-    font-size: 0.9rem;
-  }
+@media (max-width: 340px) {
+  .about-title { font-size: 1.9rem; }
 }
 </style>
 
+<!-- Safari / iOS fix -->
 <style scoped>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
-<!-- estilos--safari nav -->
-<style>
 @media not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {
-    /* Estilos solo para Safari */
-    .card {
-      background-color: rgba(0, 0, 0, 0.5);
-      -webkit-backdrop-filter: blur(5px);
-      backdrop-filter: blur(5px);
-    }
-
-    .buttons button {
-      margin: 0.5rem;
-      /* Por si no soporta gap en flex */
-    }
-
-    .top-section {
-      background: linear-gradient(135deg, rgba(3, 2, 2, 0.959), rgba(53, 36, 33, 0.7)),
-                  url('/assets/textura-madera.webp') center/cover no-repeat;
-    }
-
-    /* Puedes añadir más clases si lo necesitas */
+    .about-title     { font-size: 2.6rem; line-height: 1.05; }
+    .about-hero      { display: flex; flex-direction: column; }
+    .about-hero-img  { width: 100%; aspect-ratio: 16 / 9; max-height: 260px; border-radius: 8px; }
+    .about-stats-row { flex-wrap: wrap; }
+    .stat-sep        { display: none; }
+    .about-body      { display: flex; flex-direction: column; gap: 1.25rem; }
+    .value-row       { display: flex; flex-direction: column; gap: 0.35rem; }
   }
 }
-
 </style>

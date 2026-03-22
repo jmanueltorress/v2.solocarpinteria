@@ -5,7 +5,7 @@ import AboutItem from '../components/AboutItem.vue'
 
 <template>
   <main>
-    <AboutItem />
+
   
   </main>
 </template>
